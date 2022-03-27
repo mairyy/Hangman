@@ -9,14 +9,14 @@ using namespace std;
 const int MAX_BAD_GUESS = 7;
 
 void start();
-string chooseWord(const char* fileName);
+string chooseTopic();
+string chooseWord(const string& fileName);
 string toLowerCase(const string& word);
 void renderGame(string guessedWord, int badGuessCount, string guessChars);
 char readAGuess();
 bool contains(string secretWord, char guess);
 void update(string& guessedWord, const string& secretWord, char guess);
 void clearScreen();
-
 int main(){
 	cout << "Hello! Do you want to play Hangman?\n"
 		 << "Enter 'y' to start!\n";
@@ -34,7 +34,8 @@ int main(){
 }
 
 void start(){
-	string secretWord = chooseWord("1000words.txt");
+	string topic = chooseTopic();
+	string secretWord = chooseWord(topic);
 	string guessedWord = string(secretWord.length(), '-');
 	int badGuessCount = 0;
 	string guessChars = "";
@@ -57,7 +58,25 @@ void start(){
 	}
 }
 
-string chooseWord(const char* fileName){
+string chooseTopic(){
+	cout << "Choose topic:\n"
+		 << "1. General\n"
+		 << "2. School\n"
+		 << "3. Sports\n"
+		 << "4. Country Name\n"
+		 << "Enter '1' '2' '3' '4' to choose!\n";
+	int num;
+	cin >> num;
+	string topicLists[] = {
+		"general.txt",
+		"school.txt",
+		"sports.txt",
+		"countryName.txt"
+	};
+	return topicLists[num-1];
+}
+
+string chooseWord(const string& fileName){
 	vector <string> wordList;
 	ifstream file(fileName);
 	if (file.is_open()){
